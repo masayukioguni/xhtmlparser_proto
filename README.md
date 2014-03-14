@@ -1,15 +1,15 @@
 ##これはなに？
 
-CSSのパースをbison/flexやってみるためのプロトタイプ
+xhtmlのパースをbison/flexやってみるためのプロトタイプ
 
 
 ##入っているもの
 
-* css.y 
+* yacc.y 
 
     * bison用の定義
 
-* css.l
+* lex.l
 
     * flex用の定義
 
@@ -21,14 +21,6 @@ CSSのパースをbison/flexやってみるためのプロトタイプ
 
     * デバッグ用情報出力を含むC用プログラム作成
 
-* css
-   
-    * 実験用cssを入れておく
-
-* css_minify.rb 
-	* cssの圧縮する
-  
-  cat ./css/test.css | ./css_minify.rb 
 
 ## ビルド方法
 
@@ -36,21 +28,14 @@ CSSのパースをbison/flexやってみるためのプロトタイプ
 
 * build.shを実行
 
+* 以下で実行可能
+```
+./test xhtml_file 
+```
+
 ### デバッグビルド
 
 * debug_build.shを実行
-
-## 自動生成ファイルの説明
-
-### css.tab.*
-
-* bisonコマンド実行時に作成されるソース
-
-### lex.yy.c
-
-* flexコマンド実行時に作成されるソース
-
-### css.output
 
 * パーサの状態遷移ルールが書かれている。
 
