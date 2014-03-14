@@ -69,6 +69,7 @@ intSubset       ({markupdecl}|{DeclSep})*
                     /* add a child element */
                     //gElement = xtree_Element_addChild(gElement,
                     //    &yytext[1], XTREE_ELEMENT);
+                    printf("<%s ",&yytext[1]);
                     
                     return START_TAG;
                 }
@@ -80,6 +81,7 @@ intSubset       ({markupdecl}|{DeclSep})*
                     /* get the attribute name */
                     /* TODO - strip the spaces from the name */
                     //xtree_Element_addAttribute(gElement, yytext, NULL);
+                    printf("%s=",yytext);
                 }
 [=]{Ws}?        ;   /* ignore */
 {AttValue}      {
@@ -92,6 +94,7 @@ intSubset       ({markupdecl}|{DeclSep})*
                     value = malloc(yyleng + 1);
                     memset(value, 0, yyleng + 1);
                     memcpy(value, yytext, yyleng);
+                    printf("%s ",value);
                     //attr->value = value;
                 }
 }
@@ -109,13 +112,15 @@ intSubset       ({markupdecl}|{DeclSep})*
                     //gElement->isEmpty = 1;
                     /* pop to the parent element */
                     //gElement = gElement->parent;
-                    
+                    //printf("/>aa\n");
+
                     return END_EMPTY_TAG;
                 }
 
 [>]             {
                     yy_pop_state();
                     yy_push_state(endElement);
+                    printf(">\n",yytext);
                     return *yytext;
                 }
                 
@@ -129,6 +134,7 @@ intSubset       ({markupdecl}|{DeclSep})*
                     yy_pop_state();
                     /* pop to the parent element */
                     //gElement = gElement->parent;
+                    //printf(">\n");
                     
                     return END_TAG;
                 }
@@ -181,6 +187,7 @@ intSubset       ({markupdecl}|{DeclSep})*
 {PI}            {
                     yy_pop_state();
                     //xtree_Element_addTextChild(gElement, XTREE_PI, yytext);
+                    printf("PI(%s)\n",yytext);
                     return PROC_INSTR;
                 }
 }
@@ -188,21 +195,26 @@ intSubset       ({markupdecl}|{DeclSep})*
 
 {Comment}       {
                     //xtree_Element_addTextChild(gElement, XTREE_COMMENT, yytext);
+                    printf("Comment(%s)\n",yytext);
+                    
                     return COMMENT;
                 }
 
 {CData}         {
                     //xtree_Element_addTextChild(gElement, XTREE_CDATA, yytext);
+                    printf("CDATA(%s)\n",yytext);
                     return CDATA;
                 }
 
 {CharRef}       {
                     //xtree_Element_addTextChild(gElement, XTREE_CHAR_REF, yytext);
+                    printf("CharRef(%s)\n",yytext);
                     return REFERENCE;
                 }
 
 {EntityRef}     {
                     //xtree_Element_addTextChild(gElement, XTREE_ENTITY_REF, yytext);
+                    printf("EntityRef(%s)\n",yytext);
                     return REFERENCE;
                 }
 
